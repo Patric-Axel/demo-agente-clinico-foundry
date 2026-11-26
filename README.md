@@ -15,7 +15,7 @@ Desde esta carpeta:
 
 ```bash
 python database.py
-python tools.py
+python app.py
 ```
 
 La primera ejecución crea `consultorio.db` e inserta los 10 registros.
@@ -37,5 +37,3 @@ Para Azure App Service puedes definir:
 ```text
 DB_PATH=/home/data/consultorio.db
 ```
-
-Asegúrate de que el almacenamiento persistente de App Service esté habilitado.

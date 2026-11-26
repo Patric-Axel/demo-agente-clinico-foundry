@@ -6,16 +6,8 @@ from openai import OpenAI
 from database import inicializar_base_datos
 from tools import TOOLS, AVAILABLE_FUNCTIONS
 
-# ==========================================
-# CONFIGURACIÓN AZURE AI FOUNDRY
-# ==========================================
-
 FOUNDRY_ACCOUNT = os.getenv("FOUNDRY_ACCOUNT")
-
-ENDPOINT = (
-    f"https://{FOUNDRY_ACCOUNT}.services.ai.azure.com/openai/v1"
-)
-
+ENDPOINT = (f"https://{FOUNDRY_ACCOUNT}.services.ai.azure.com/openai/v1")
 MODEL = os.getenv("FOUNDRY_MODEL")
 API_KEY = os.getenv("API_KEY_FOUNDRY")
 
@@ -92,16 +84,10 @@ def preguntar_agente(mensaje_usuario: str):
         if item.type == "function_call":
             function_calls.append(item)
 
-    # ---------------------------------------
-    # NO HAY FUNCTION CALLS
-    # ---------------------------------------
+    #SI NO REQUIERE USAR FUNTION CALLING
 
     if not function_calls:
         return response.output_text
-
-    # ---------------------------------------
-    # EJECUTAR HERRAMIENTAS
-    # ---------------------------------------
 
     tool_outputs = []
 
@@ -129,10 +115,6 @@ def preguntar_agente(mensaje_usuario: str):
             }
         )
 
-    # ---------------------------------------
-    # SEGUNDA LLAMADA AL MODELO
-    # ---------------------------------------
-
     segunda_respuesta = client.responses.create(
         model=MODEL,
         previous_response_id=response.id,
@@ -147,9 +129,7 @@ def preguntar_agente(mensaje_usuario: str):
     return segunda_respuesta.output_text
 
 
-# ==========================================
 # CHAT DE CONSOLA
-# ==========================================
 
 if __name__ == "__main__":
 
